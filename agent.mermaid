@@ -1,0 +1,23 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	__end__([<p>__end__</p>]):::last
+	__start__ --> uipath_agent___start__;
+	uipath_agent___end__ --> __end__;
+	subgraph uipath_agent
+	uipath_agent___start__(<p>__start__</p>)
+	uipath_agent_agent(agent)
+	uipath_agent_tools(tools)
+	uipath_agent___end__(<p>__end__</p>)
+	uipath_agent___start__ --> uipath_agent_agent;
+	uipath_agent_agent -.-> uipath_agent___end__;
+	uipath_agent_agent -.-> uipath_agent_tools;
+	uipath_agent_tools --> uipath_agent_agent;
+	end
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
