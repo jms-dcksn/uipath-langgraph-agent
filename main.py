@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from uipath import UiPath
 from uipath.models import CreateAction
 
-# Create UiPath client - this will be used to call the RPA tool
+# Create UiPath client
 client = UiPath()
 
 # Define the input and output schemas
