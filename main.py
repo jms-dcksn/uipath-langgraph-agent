@@ -1,14 +1,15 @@
 from uipath_langchain.chat.models import UiPathAzureChatOpenAI
+from langchain_core.messages import HumanMessage, ToolMessage
 from langgraph.graph import START, StateGraph, MessagesState, END
 from langgraph.prebuilt import create_react_agent
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_core.tools import tool
-from langgraph.types import interrupt
+from langgraph.types import interrupt, Command
 from langchain.tools.retriever import create_retriever_tool
 from uipath_langchain.retrievers import ContextGroundingRetriever
 from pydantic import BaseModel
 from uipath import UiPath
-from uipath.models import CreateAction
+from uipath.models import CreateAction, InvokeProcess
 
 # Create UiPath client
 client = UiPath()
@@ -19,6 +20,10 @@ class GraphInput(BaseModel):
 
 class GraphOutput(BaseModel):
     response: str
+
+class State(MessagesState):
+    message: str
+
 # Set model to use UiPath AI Trust Layer connection
 llm_model = UiPathAzureChatOpenAI(
                     model="gpt-4o-2024-08-06",
@@ -59,8 +64,18 @@ retriever_tool = create_retriever_tool(
 )
 
 # Set up the Tavily search tool
-tavily_tool = TavilySearchResults(max_results=5)
+# tavily_tool = TavilySearchResults(max_results=5)
 
+@tool
+def invoke_uipath_process(query: str) -> str:
+    """This is your web search tool to research the NIST code."""
+    agent_response = interrupt(InvokeProcess(
+        name="WebSearchRPA",
+        process_folder_path="Shared",
+        input_arguments={"query": query}))
+    print(agent_response)
+    agent_message = ToolMessage(content=agent_response["results"])
+    return Command(update={"messages": [agent_message]})
 
 # Set up the human in the loop tool. This is used as a tool by the react agent to escalate to a human. 
 # The agent decides when to use the escalation.
@@ -78,9 +93,10 @@ def human_in_the_loop(query: str) -> str:
                 },
         app_folder_path="Demos"
         ))
-    return action_data["Answer"]
+    
+    return Command(update={"messages": [HumanMessage(content=action_data["Answer"])]})
 
-tools = [retriever_tool, tavily_tool, human_in_the_loop]
+tools = [retriever_tool,invoke_uipath_process, human_in_the_loop]
 
 # Create core agent that will use tools dynamically
 agent = create_react_agent(
