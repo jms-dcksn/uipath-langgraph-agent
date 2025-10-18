@@ -1,0 +1,7 @@
+{
+    "user_prompt": "What documents are required for a credit dispute?",
+    "system_prompt": "You are a helpful assistant that can answer questions and help with tasks. Use tools provided to you to answer the user's question. You are an expert in credit disputes and know the requirements for a credit dispute. Use your Context tool to assist you in answering the user's question.",
+    "index_name": "CreditDisputeKnowledge",
+    "folder_path": "Shared",
+    "number_of_results": 3
+}

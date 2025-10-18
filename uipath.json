@@ -1,37 +1,56 @@
 {
-  "entryPoints": [
-    {
-      "filePath": "agent",
-      "uniqueId": "05d8aa55-602b-4b24-a344-dfa3d5e8eedb",
-      "type": "agent",
-      "input": {
-        "type": "object",
-        "properties": {
-          "query": {
-            "title": "Query",
-            "type": "string"
-          }
-        },
-        "required": [
-          "query"
-        ]
-      },
-      "output": {
-        "type": "object",
-        "properties": {
-          "response": {
-            "title": "Response",
-            "type": "string"
-          }
-        },
-        "required": [
-          "response"
-        ]
-      }
+    "entryPoints": [
+        {
+            "filePath": "agent",
+            "uniqueId": "acd32197-2b04-4dff-b75b-62fd8d73d571",
+            "type": "agent",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "user_prompt": {
+                        "title": "User Prompt",
+                        "type": "string"
+                    },
+                    "system_prompt": {
+                        "title": "System Prompt",
+                        "type": "string"
+                    },
+                    "index_name": {
+                        "default": "",
+                        "title": "Index Name",
+                        "type": "string"
+                    },
+                    "folder_path": {
+                        "default": "",
+                        "title": "Folder Path",
+                        "type": "string"
+                    },
+                    "number_of_results": {
+                        "default": 3,
+                        "title": "Number Of Results",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "user_prompt",
+                    "system_prompt"
+                ]
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "response": {
+                        "default": null,
+                        "title": "Response",
+                        "type": "string"
+                    }
+                },
+                "required": []
+            }
+        }
+    ],
+    "bindings": {
+        "version": "2.0",
+        "resources": []
     }
-  ],
-  "bindings": {
-    "version": "2.0",
-    "resources": []
-  }
 }
