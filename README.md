@@ -40,3 +40,9 @@ graph TD;
 
 - `uipath pack` - Package the agent
 - `uipath publish` - Publish the agent
+
+## Running from UiPath Orchestrator
+
+Once the agent has been published, you can run it from UiPath Orchestrator:
+
+![Configuration](config.png)
